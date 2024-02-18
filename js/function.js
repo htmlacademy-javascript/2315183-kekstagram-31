@@ -2,9 +2,7 @@
 // которую нужно проверить, и максимальную длину и возвращает true,
 // если строка
 // меньше или равна указанной длине, и false, если строка длиннее.
-const checkString = (string, numberOfSymbol) => {
-  return (string.length <= numberOfSymbol) ? true : false;
-};
+const checkString = (string, numberOfSymbol) => (string.length <= numberOfSymbol);
 //Проверка
 console.log(checkString('проверяемая строка', 20));
 console.log(checkString('проверяемая строка', 18));
