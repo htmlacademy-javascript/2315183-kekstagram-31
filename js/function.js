@@ -3,6 +3,7 @@
 // если строка
 // меньше или равна указанной длине, и false, если строка длиннее.
 const checkString = (string, numberOfSymbol) => (string.length <= numberOfSymbol);
+checkString('lalalala', 10);
 
 // Функция для проверки, является ли строка палиндромом.
 // Палиндром — это слово или фраза,
@@ -26,6 +27,7 @@ const checkPalindrom = (word) => {
 
   return false;
 };
+checkPalindrom('lalaalal');
 
 // Функция принимает строку, извлекает содержащиеся в
 // ней цифры от 0 до 9 и возвращает их в виде целого положительного числа.
@@ -46,3 +48,4 @@ const extractNumbers = (string) => {
   }
   return NaN;
 };
+extractNumbers('ddd432');
