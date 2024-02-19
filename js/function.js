@@ -3,11 +3,6 @@
 // если строка
 // меньше или равна указанной длине, и false, если строка длиннее.
 const checkString = (string, numberOfSymbol) => (string.length <= numberOfSymbol);
-//Проверка
-console.log(checkString('проверяемая строка', 20));
-console.log(checkString('проверяемая строка', 18));
-console.log(checkString('проверяемая строка', 10));
-
 
 // Функция для проверки, является ли строка палиндромом.
 // Палиндром — это слово или фраза,
@@ -32,13 +27,6 @@ const checkPalindrom = (word) => {
   return false;
 };
 
-//Проверка
-console.log(checkPalindrom('топот'));
-console.log(checkPalindrom('довОд'));
-console.log(checkPalindrom('Кекс'));
-console.log(checkPalindrom('Лёша на полке клопа нашёл '));
-
-
 // Функция принимает строку, извлекает содержащиеся в
 // ней цифры от 0 до 9 и возвращает их в виде целого положительного числа.
 // Если в строке нет ни одной цифры, функция должна вернуть NaN
@@ -58,14 +46,3 @@ const extractNumbers = (string) => {
   }
   return NaN;
 };
-
-//Проверка
-console.log(extractNumbers('2023 год'));
-console.log(extractNumbers('ECMAScript 2022'));
-console.log(extractNumbers('1 кефир, 0.5 батона'));
-console.log(extractNumbers('агент 007'));
-console.log(extractNumbers('а я томат'));
-
-console.log(extractNumbers(2023));
-console.log(extractNumbers(-1));
-console.log(extractNumbers(1.5));
