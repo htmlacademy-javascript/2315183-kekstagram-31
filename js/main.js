@@ -64,6 +64,6 @@ const createPost = () => ({
   comments: Array.from({length: getRandomInteger(0, 30)}, createComments)
 });
 
-const createdPosts = Array.from({length: POST_COUNT}, createPost);
-
+Array.from({length: POST_COUNT}, createPost);
+//const createdPosts = Array.from({length: POST_COUNT}, createPost);
 //console.log(createdPosts);
