@@ -22,7 +22,7 @@ const USERS_NAME = [
   'Ольга',
   'Алексей',
   'Семён'
-]
+];
 
 const POST_COUNT = 25;
 
