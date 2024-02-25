@@ -1,13 +1,13 @@
 
-const DESCRIPTION = [
-  'Красиове место',
+const DESCRIPTIONS = [
+  'Красивое место',
   'I Love U',
   'Where i am?',
   'Taste food',
   'Beautiful sound'
 ];
 
-const COMMENTS_MESSAGE = [
+const COMMENT_MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -16,15 +16,40 @@ const COMMENTS_MESSAGE = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-const USERS_NAME = [
+const USER_NAMES = [
   'Анастасия',
   'Елизавета',
   'Ольга',
   'Алексей',
   'Семён'
-]
+];
 
 const POST_COUNT = 25;
+
+const RangeIDs = {
+  MIN: 1,
+  MAX: 25
+};
+
+const RangeIDComment = {
+  MIN: 1,
+  MAX: 1000
+};
+
+const RangeURLs = {
+  MIN: 1,
+  MAX: 25
+};
+
+const RangeLikes = {
+  MIN: 15,
+  MAX: 200
+};
+
+const countOfComments = {
+  MIN: 0,
+  MAX: 25
+};
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -33,10 +58,10 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-function createRandomIdFromRangeGenerator (min, max) {
+const createRandomIdFromRangeGenerator = (min, max) => {
   const previousValues = [];
 
-  return function () {
+  return () => {
     let currentValue = getRandomInteger(min, max);
     if (previousValues.length >= (max - min + 1)) {
       return null;
@@ -47,32 +72,34 @@ function createRandomIdFromRangeGenerator (min, max) {
     previousValues.push(currentValue);
     return currentValue;
   };
-}
+};
 
 // Создание уникальных ID и URL адресов
-const generateId = createRandomIdFromRangeGenerator (1, 25);
+const generateId = createRandomIdFromRangeGenerator (RangeIDs.MIN, RangeIDs.MAX);
 
-const generateIdComments = createRandomIdFromRangeGenerator(1, 1000);
+const generateIdComments = createRandomIdFromRangeGenerator(RangeIDComment.MIN, RangeIDComment.MAX);
 
-const photosRandomUrl = createRandomIdFromRangeGenerator(1, 25);
+const photosRandomUrl = createRandomIdFromRangeGenerator(RangeURLs.MIN, RangeURLs.MAX);
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-const createComments = () => ({
+const createComment = () => ({
   id: generateIdComments(),
   avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-  message: getRandomArrayElement(COMMENTS_MESSAGE),
-  name: getRandomArrayElement(USERS_NAME)
+  message: `${getRandomArrayElement(COMMENT_MESSAGES)} ${getRandomArrayElement(COMMENT_MESSAGES)}`,
+  name: getRandomArrayElement(USER_NAMES)
 });
 
 const createPost = () => ({
   id: generateId(),
   url: `photos/${photosRandomUrl()}.jpg`,
-  description: getRandomArrayElement(DESCRIPTION),
-  likes: getRandomInteger(15, 200),
-  comments: Array.from({length: getRandomInteger(0, 30)}, createComments)
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandomInteger(RangeLikes.MIN, RangeLikes.MAX),
+  comments: Array.from({length: getRandomInteger(countOfComments.MIN, countOfComments.MAX)}, createComment)
 });
 
-Array.from({length: POST_COUNT}, createPost);
+const createPosts = () => Array.from({length: POST_COUNT}, createPost);
+createPosts();
+
 //const createdPosts = Array.from({length: POST_COUNT}, createPost);
 //console.log(createdPosts);
