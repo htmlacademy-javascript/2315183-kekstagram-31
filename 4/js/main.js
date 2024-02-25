@@ -16,6 +16,14 @@ const COMMENTS_MESSAGE = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
+const USERS_NAME = [
+  'Анастасия',
+  'Елизавета',
+  'Ольга',
+  'Алексей',
+  'Семён'
+]
+
 const POST_COUNT = 25;
 
 const getRandomInteger = (a, b) => {
@@ -53,7 +61,8 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 const createComments = () => ({
   id: generateIdComments(),
   avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-  message: getRandomArrayElement(COMMENTS_MESSAGE)
+  message: getRandomArrayElement(COMMENTS_MESSAGE),
+  name: getRandomArrayElement(USERS_NAME)
 });
 
 const createPost = () => ({
