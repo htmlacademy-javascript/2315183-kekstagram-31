@@ -49,3 +49,33 @@ const extractNumbers = (string) => {
   return NaN;
 };
 extractNumbers('ddd432');
+
+// MODULE 5
+
+const canBeMeeting = (startWork, endWork, startMeeting, durationMeeting) => {
+  const dateOfStartWork = new Date();
+  const dateOfEndWork = new Date();
+  const dateOfStartMeeting = new Date();
+
+  startWork = startWork.split(':');
+  endWork = endWork.split(':');
+  startMeeting = startMeeting.split(':');
+
+  dateOfStartWork.setHours(startWork[0],startWork[1], 0);
+  dateOfEndWork.setHours(endWork[0], endWork[1], 0);
+  dateOfStartMeeting.setHours(startMeeting[0], startMeeting[1], 0);
+
+  const newDateObj = new Date(dateOfStartMeeting.getTime() + durationMeeting * 60000);
+
+  if ((newDateObj > dateOfEndWork) || (dateOfStartWork > dateOfStartMeeting)) {
+    return false;
+  }
+  return true;
+
+};
+
+canBeMeeting('08:00', '17:30', '14:00', 90);
+canBeMeeting('8:0', '10:0', '8:0', 120);
+canBeMeeting('08:00', '14:30', '14:00', 90);
+canBeMeeting('14:00', '17:30', '08:0', 90);
+canBeMeeting('8:00', '17:30', '08:00', 900);
