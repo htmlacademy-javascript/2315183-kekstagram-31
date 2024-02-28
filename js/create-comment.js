@@ -1,5 +1,5 @@
-import { COMMENT_MESSAGES, USER_NAMES, RangeIDComment } from './data.js';
-import { getRandomInteger, getRandomArrayElement, createRandomIdFromRangeGenerator } from './random-generators';
+import { COMMENT_MESSAGES, USER_NAMES, RangeIDComment } from './consts.js';
+import { getRandomInteger, getRandomArrayElement, createRandomIdFromRangeGenerator } from './utils.js';
 
 const generateIdComments = createRandomIdFromRangeGenerator(RangeIDComment.MIN, RangeIDComment.MAX);
 
