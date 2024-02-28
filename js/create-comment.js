@@ -10,4 +10,5 @@ const createComment = () => ({
   name: getRandomArrayElement(USER_NAMES)
 });
 
+
 export { createComment };

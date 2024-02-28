@@ -3,7 +3,6 @@ import { getRandomInteger, getRandomArrayElement, createRandomIdFromRangeGenerat
 import { createComment } from './create-comment.js';
 
 const generateId = createRandomIdFromRangeGenerator (RangeIDs.MIN, RangeIDs.MAX);
-
 const photosRandomUrl = createRandomIdFromRangeGenerator(RangeURLs.MIN, RangeURLs.MAX);
 
 const createPost = () => ({
