@@ -9,6 +9,7 @@ const similarListFragment = document.createDocumentFragment();
 
 miniatures.forEach(({url, description, likes, comments}) => {
   const miniatureElement = miniatureTemplate.cloneNode(true);
+
   const picture = miniatureElement.querySelector('.picture__img');
   const countComments = miniatureElement.querySelector('.picture__comments');
   const countLikes = miniatureElement.querySelector('.picture__likes');
