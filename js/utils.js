@@ -23,5 +23,14 @@ const createRandomIdFromRangeGenerator = (min, max) => {
   };
 };
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElement };
+const isEnterKey = (evt) => evt.key === 'Enter';
+
+const createElement = (element, className) => {
+  const newElement = document.createElement(`${element}`);
+  newElement.classList.add(`${className}`);
+  return newElement;
+};
+
+export { getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElement, isEnterKey, isEscapeKey, createElement };
