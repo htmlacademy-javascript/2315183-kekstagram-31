@@ -1,4 +1,1 @@
-import { createPosts } from './create-post';
-
-createPosts();
-//console.log(createPosts());
+import {} from './draw_miniatures';
