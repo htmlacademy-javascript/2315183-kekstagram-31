@@ -26,7 +26,7 @@ const generateComments = (comments) => {
 
   const loadMoreButton = document.querySelector('.social__comments-loader');
 
-  if (count > comments.length) {
+  if (count >= comments.length) {
     count = comments.length;
     loadMoreButton.classList.add('hidden');
   } else {
