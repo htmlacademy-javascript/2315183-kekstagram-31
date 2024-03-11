@@ -58,4 +58,4 @@ const countClear = () => {
   count = 5;
 };
 
-export { generateCommentsBlock, generateComments, commentsList, countClear };
+export { generateCommentsTemplate, generateComments, commentsList, countClear };
