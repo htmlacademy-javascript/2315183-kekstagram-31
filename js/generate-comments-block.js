@@ -4,7 +4,7 @@ const commentsList = document.querySelector('.social__comments');
 
 let count = 5;
 
-const generateCommentsBlock = () => {
+const generateCommentsTemplate = () => {
   const commentTemplate = createElement('li', 'social__comment');
   const commentImg = createElement('img', 'social__picture');
   const commentMessage = createElement('p', 'social__text');
@@ -16,7 +16,7 @@ const generateCommentsBlock = () => {
 };
 
 const generateComments = (comments) => {
-  const commentTemplate = generateCommentsBlock();
+  const commentTemplate = generateCommentsTemplate();
   commentsList.textContent = '';
 
   const commentListFragment = document.createDocumentFragment();
