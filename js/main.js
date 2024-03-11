@@ -1,3 +1,8 @@
-import {} from './draw_miniatures.js';
-import './open_close_picture_popup.js';
+import { createPosts } from './create-post.js';
+import { drawMiniatures } from './draw-miniatures.js';
+import './picture-popup.js';
 
+const miniatures = createPosts();
+drawMiniatures(miniatures);
+
+export { miniatures };
