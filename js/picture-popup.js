@@ -44,7 +44,7 @@ const onDocumentKeydown = (evt) => {
 
 function openPopup () {
   bigPicturePopup.classList.remove('hidden');
-  modalOpen.classList.add('.modal-open');
+  modalOpen.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
   commentLoaderButton.addEventListener('click', onLoadCommentsClick);
@@ -52,7 +52,7 @@ function openPopup () {
 
 function closePopup() {
   bigPicturePopup.classList.add('hidden');
-  modalOpen.classList.remove('.modal-open');
+  modalOpen.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
   commentLoaderButton.removeEventListener('click', onLoadCommentsClick);

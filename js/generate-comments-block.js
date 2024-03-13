@@ -1,8 +1,13 @@
 import { createElement } from './utils.js';
 
+const CountCommentValues = {
+  START_COUNT: 5,
+  STEP_COUNT: 5
+};
+
 const commentsList = document.querySelector('.social__comments');
 
-let count = 5;
+let count = CountCommentValues.START_COUNT;
 
 const generateCommentsTemplate = () => {
   const commentTemplate = createElement('li', 'social__comment');
@@ -36,26 +41,27 @@ const generateComments = (comments) => {
   countCommentsShow.textContent = count;
   countCommentsTotal.textContent = comments.length;
 
-  for (let i = 0; i < count; i++) {
+  comments.slice(0, count).forEach((comment) => {
+    const {avatar, name, message} = comment;
     const commentElement = commentTemplate.cloneNode(true);
 
     const commentUserImg = commentElement.querySelector('.social__picture');
     const commentUserMessage = commentElement.querySelector('.social__text');
 
-    commentUserImg.src = comments[i].avatar;
-    commentUserImg.alt = comments[i].name;
-    commentUserMessage.textContent = comments[i].message;
+    commentUserImg.src = avatar;
+    commentUserImg.alt = name;
+    commentUserMessage.textContent = message;
 
     commentListFragment.append(commentElement);
-  }
+  });
 
   commentsList.append(commentListFragment);
 
-  count += 5;
+  count += CountCommentValues.STEP_COUNT;
 };
 
 const countClear = () => {
-  count = 5;
+  count = CountCommentValues.START_COUNT;
 };
 
 export { generateCommentsTemplate, generateComments, commentsList, countClear };

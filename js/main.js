@@ -4,5 +4,3 @@ import './picture-popup.js';
 
 const miniatures = createPosts();
 drawMiniatures(miniatures);
-
-export { miniatures };
