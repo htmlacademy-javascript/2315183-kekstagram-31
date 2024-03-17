@@ -1,7 +1,7 @@
 import { createElement } from './utils.js';
 
 const CountCommentValues = {
-  START_COUNT: 5,
+  START_COUNT: 0,
   STEP_COUNT: 5
 };
 
@@ -22,7 +22,6 @@ const generateCommentsTemplate = () => {
 
 const generateComments = (comments) => {
   const commentTemplate = generateCommentsTemplate();
-  commentsList.textContent = '';
 
   const commentListFragment = document.createDocumentFragment();
 
@@ -31,17 +30,17 @@ const generateComments = (comments) => {
 
   const loadMoreButton = document.querySelector('.social__comments-loader');
 
-  if (count >= comments.length) {
-    count = comments.length;
+  if (count + CountCommentValues.STEP_COUNT >= comments.length) {
     loadMoreButton.classList.add('hidden');
+    countCommentsShow.textContent = comments.length;
   } else {
     loadMoreButton.classList.remove('hidden');
+    countCommentsShow.textContent = count + CountCommentValues.STEP_COUNT;
   }
 
-  countCommentsShow.textContent = count;
   countCommentsTotal.textContent = comments.length;
 
-  comments.slice(0, count).forEach((comment) => {
+  comments.slice(count, count + CountCommentValues.STEP_COUNT).forEach((comment) => {
     const {avatar, name, message} = comment;
     const commentElement = commentTemplate.cloneNode(true);
 
