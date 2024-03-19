@@ -10,10 +10,9 @@ const WrongMasseges = {
 const HASHTAG_MAX_COUNT = 5;
 const COMMENT_MAX_LENGTH = 140;
 
-const loadImageForm = document.querySelector('.img-upload__overlay');
+const loadImageForm = document.querySelector('.img-upload__form');
 const hashtagInput = loadImageForm.querySelector('.text__hashtags');
 const commentInput = loadImageForm.querySelector('.text__description');
-const createPostButton = loadImageForm.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(loadImageForm, {
   classTo: 'img-upload__field-wrapper',
@@ -62,17 +61,7 @@ pristine.addValidator(hashtagInput, checkCountHashtags, WrongMasseges.HASHTAG_CO
 pristine.addValidator(hashtagInput, checkHashtagsDuplicates, WrongMasseges.HASHTAG_DUPLICATE);
 pristine.addValidator(commentInput, checkCommentLength, WrongMasseges.COMMENT_LENGTH);
 
-loadImageForm.addEventListener('input', () => {
-  if (!pristine.validate()) {
-    createPostButton.disabled = true;
-  } else {
-    createPostButton.disabled = false;
-  }
-});
-
 loadImageForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
 });
-
-

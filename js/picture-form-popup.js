@@ -5,6 +5,8 @@ const loadImageFormPopup = document.querySelector('.img-upload__overlay');
 const loadImageFormPopupOpen = document.querySelector('.img-upload__input');
 const loadImageFormPopupClose = loadImageFormPopup.querySelector('.img-upload__cancel');
 
+//const imagePreview = loadImageFormPopup.querySelector('.img-upload__preview img');
+
 const hashtagInput = loadImageFormPopup.querySelector('.text__hashtags');
 const commentInput = loadImageFormPopup.querySelector('.text__description');
 
@@ -16,6 +18,8 @@ const effectChoseButtons = document.querySelectorAll('.effects__radio');
 let onDocumentKeydown = () => {};
 
 const openLoadImageForm = () => {
+  //imagePreview.src = loadImageFormPopupOpen.value;
+
   loadImageFormPopup.classList.remove('hidden');
 
   document.addEventListener('keydown', onDocumentKeydown);
@@ -27,7 +31,6 @@ const openLoadImageForm = () => {
       changeImageEffect(button);
     });
   });
-
 };
 
 const closeLoadImageForm = () => {
