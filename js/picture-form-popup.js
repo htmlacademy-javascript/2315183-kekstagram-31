@@ -1,5 +1,5 @@
 import { isEscapeKey } from './utils.js';
-import { doPictureBigger, doPictureSmaller, resetImageScale, changeImageEffect } from './picture-filter.js';
+import { doPictureBigger, doPictureSmaller, resetImageScale, changeImageEffect, clearEffects } from './picture-filter.js';
 
 const loadImageFormPopup = document.querySelector('.img-upload__overlay');
 const loadImageFormPopupOpen = document.querySelector('.img-upload__input');
@@ -39,6 +39,7 @@ const closeLoadImageForm = () => {
   scaleSmallerButton.removeEventListener('click', doPictureSmaller);
   scaleBiggerButton.removeEventListener('click', doPictureBigger);
 
+  clearEffects();
 };
 
 loadImageFormPopupOpen.addEventListener('change', () => {
