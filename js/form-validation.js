@@ -61,7 +61,13 @@ pristine.addValidator(hashtagInput, checkCountHashtags, WrongMasseges.HASHTAG_CO
 pristine.addValidator(hashtagInput, checkHashtagsDuplicates, WrongMasseges.HASHTAG_DUPLICATE);
 pristine.addValidator(commentInput, checkCommentLength, WrongMasseges.COMMENT_LENGTH);
 
+const checkForm = () => {
+  pristine.validate();
+};
+
 loadImageForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
 });
+
+export { checkForm };

@@ -1,5 +1,6 @@
 import { isEscapeKey } from './utils.js';
 import { doPictureBigger, doPictureSmaller, resetImageScale, changeImageEffect, clearEffects, createSlider } from './picture-filter.js';
+import { checkForm } from './form-validation.js';
 
 const loadImageFormPopup = document.querySelector('.img-upload__overlay');
 const loadImageFormPopupOpen = document.querySelector('.img-upload__input');
@@ -19,6 +20,7 @@ let onDocumentKeydown = () => {};
 
 const openLoadImageForm = () => {
   //imagePreview.src = loadImageFormPopupOpen.value;
+  checkForm();
   createSlider();
 
   loadImageFormPopup.classList.remove('hidden');
