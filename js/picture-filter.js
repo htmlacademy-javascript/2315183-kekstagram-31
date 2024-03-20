@@ -44,15 +44,17 @@ const imagePreview = document.querySelector('.img-upload__preview img');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
 
-noUiSlider.create(sliderElement, {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 50,
-  connect: 'lower'
-});
-sliderElement.setAttribute('disabled', true);
+const createSlider = () => {
+  noUiSlider.create(sliderElement, {
+    range: {
+      min: 0,
+      max: 100,
+    },
+    start: 50,
+    connect: 'lower'
+  });
+  sliderElement.setAttribute('disabled', true);
+};
 
 let scale;
 
@@ -140,9 +142,9 @@ const changeImageEffect = (item) => {
 };
 
 const clearEffects = () => {
-  sliderElement.setAttribute('disabled', true);
+  sliderElement.noUiSlider.destroy();
   effectLevelValue.value = 0;
   imagePreview.style.filter = null;
 };
 
-export { doPictureSmaller, doPictureBigger, resetImageScale, changeImageEffect, sliderElement, clearEffects };
+export { doPictureSmaller, doPictureBigger, resetImageScale, changeImageEffect, sliderElement, clearEffects, createSlider };
