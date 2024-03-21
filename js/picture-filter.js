@@ -46,6 +46,7 @@ const changeImageEffect = (button) => {
   hideSlider(effect.FILTER_NAME);
   editSlider(effect.MIN, effect.MAX, effect.STEP);
 
+  // Не поняла как вынести это в отделтную функцию
   sliderElement.noUiSlider.on('update', () => {
     effectLevelValue.value = sliderElement.noUiSlider.get();
     if (effect.FILTER_NAME === 'none') {
