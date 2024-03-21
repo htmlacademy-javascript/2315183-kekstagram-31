@@ -1,10 +1,8 @@
-import { isEscapeKey } from './utils.js';
+import { addModalOpen, isEscapeKey } from './utils.js';
 import { generateComments, commentsList, countClear } from './generate-comments-block.js';
 
 const bigPicturePopup = document.querySelector('.big-picture');
 const bigPictureClose = bigPicturePopup.querySelector('.big-picture__cancel');
-
-const modalOpen = document.querySelector('body');
 
 const commentLoaderButton = bigPicturePopup.querySelector('.comments-loader');
 let onLoadCommentsClick;
@@ -40,7 +38,7 @@ const drawBigPicturePopup = (miniature) => {
 
 const openPopup = () => {
   bigPicturePopup.classList.remove('hidden');
-  modalOpen.classList.add('modal-open');
+  addModalOpen();
 
   document.addEventListener('keydown', onDocumentKeydown);
   commentLoaderButton.addEventListener('click', onLoadCommentsClick);
@@ -48,7 +46,7 @@ const openPopup = () => {
 
 const closePopup = () => {
   bigPicturePopup.classList.add('hidden');
-  modalOpen.classList.remove('modal-open');
+  addModalOpen();
 
   document.removeEventListener('keydown', onDocumentKeydown);
   commentLoaderButton.removeEventListener('click', onLoadCommentsClick);
