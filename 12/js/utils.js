@@ -33,4 +33,9 @@ const createElement = (element, className) => {
   return newElement;
 };
 
-export { getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElement, isEnterKey, isEscapeKey, createElement };
+const addModalOpen = () => {
+  const modalOpen = document.querySelector('body');
+  modalOpen.classList.toggle('modal-open');
+};
+
+export { getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElement, isEnterKey, isEscapeKey, createElement, addModalOpen };
