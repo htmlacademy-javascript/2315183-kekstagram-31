@@ -1,4 +1,4 @@
-const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
+const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const WrongMasseges = {
   HASTAG_TEXT: 'Неверная запись хештегов',
@@ -10,10 +10,9 @@ const WrongMasseges = {
 const HASHTAG_MAX_COUNT = 5;
 const COMMENT_MAX_LENGTH = 140;
 
-const loadImageForm = document.querySelector('.img-upload__overlay');
+const loadImageForm = document.querySelector('.img-upload__form');
 const hashtagInput = loadImageForm.querySelector('.text__hashtags');
 const commentInput = loadImageForm.querySelector('.text__description');
-const createPostButton = loadImageForm.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(loadImageForm, {
   classTo: 'img-upload__field-wrapper',
@@ -32,47 +31,37 @@ const checkHashtags = (value) => {
   if (value === '') {
     return true;
   }
-  return hashtagArray.every((element) => hashtag.test(element));
+  return hashtagArray.every((element) => HASHTAG_REGEX .test(element));
 };
 
 const checkCountHashtags = (value) => {
   const hashtagArray = value.trim().split(' ');
 
-  if (hashtagArray.length <= HASHTAG_MAX_COUNT) {
-    return true;
-  }
-  return false;
+  return hashtagArray.length <= HASHTAG_MAX_COUNT;
 };
 
 const checkHashtagsDuplicates = (value) => {
   const hashtagArray = value.trim().split(' ');
 
-  return checkDuplicates(hashtagArray);
+  return checkDuplicates(hashtagArray.map((hashtag) => hashtag.toLowerCase()));
 };
 
-const checkCommentLength = (value) => {
-  if (value.length > COMMENT_MAX_LENGTH) {
-    return false;
-  }
-  return true;
-};
+const checkCommentLength = (value) => value.length <= COMMENT_MAX_LENGTH;
 
 pristine.addValidator(hashtagInput, checkHashtags, WrongMasseges.HASTAG_TEXT);
 pristine.addValidator(hashtagInput, checkCountHashtags, WrongMasseges.HASHTAG_COUNT);
 pristine.addValidator(hashtagInput, checkHashtagsDuplicates, WrongMasseges.HASHTAG_DUPLICATE);
 pristine.addValidator(commentInput, checkCommentLength, WrongMasseges.COMMENT_LENGTH);
 
-loadImageForm.addEventListener('input', () => {
-  if (!pristine.validate()) {
-    createPostButton.disabled = true;
-  } else {
-    createPostButton.disabled = false;
-  }
-});
+const checkForm = () => {
+  pristine.validate();
+};
 
 loadImageForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  pristine.validate();
+  if(pristine.validate()) {
+    loadImageForm.submit();
+  }
 });
 
-
+export { checkForm };
