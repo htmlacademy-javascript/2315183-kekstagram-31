@@ -96,6 +96,7 @@ const showLoadInfoPopup = (parametr) => {
 
 successButton.addEventListener('click', () => {
   successPopup.classList.add('hidden');
+  clearForm();
 });
 
 errorButton.addEventListener('click', () => {
