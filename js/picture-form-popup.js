@@ -7,8 +7,6 @@ const loadImageFormPopup = document.querySelector('.img-upload__overlay');
 const loadImageFormPopupOpen = document.querySelector('.img-upload__input');
 const loadImageFormPopupClose = loadImageFormPopup.querySelector('.img-upload__cancel');
 
-//const imagePreview = loadImageFormPopup.querySelector('.img-upload__preview img');
-
 const hashtagInput = loadImageFormPopup.querySelector('.text__hashtags');
 const commentInput = loadImageFormPopup.querySelector('.text__description');
 
@@ -22,10 +20,22 @@ const addEffects = () => {
   changeImageEffect(checkedButton);
 };
 
+const clearInputs = () => {
+  hashtagInput.textContent = '';
+  commentInput.textContent = '';
+};
+
+const clearForm = () => {
+  loadImageFormPopupOpen.value = '';
+
+  clearEffects();
+  clearInputs();
+  resetImageScale();
+};
+
 let onDocumentKeydown = () => {};
 
 const openLoadImageForm = () => {
-  //imagePreview.src = loadImageFormPopupOpen.value;
   checkForm();
   createSlider();
 
@@ -41,8 +51,7 @@ const openLoadImageForm = () => {
 
 const closeLoadImageForm = () => {
   loadImageFormPopup.classList.add('hidden');
-  loadImageFormPopupOpen.value = '';
-  resetImageScale();
+  clearForm();
 
   addModalOpen();
 
@@ -50,8 +59,6 @@ const closeLoadImageForm = () => {
   scaleSmallerButton.removeEventListener('click', doPictureSmaller);
   scaleBiggerButton.removeEventListener('click', doPictureBigger);
   effectRadioButton.removeEventListener('change', addEffects);
-
-  clearEffects();
 };
 
 loadImageFormPopupOpen.addEventListener('change', () => {
@@ -70,3 +77,5 @@ onDocumentKeydown = (evt) => {
     }
   }
 };
+
+export { closeLoadImageForm, onDocumentKeydown, clearForm };

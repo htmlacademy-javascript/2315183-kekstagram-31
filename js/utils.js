@@ -1,3 +1,8 @@
+const ALERT_SHOW_TIME = 5000;
+const DATA_ERROR = 'data-error';
+
+const body = document.querySelector('body');
+
 const getRandomInteger = (minValue, maxValue) => {
   const lower = Math.ceil(Math.min(minValue, maxValue));
   const upper = Math.floor(Math.max(minValue, maxValue));
@@ -38,4 +43,24 @@ const addModalOpen = () => {
   modalOpen.classList.toggle('modal-open');
 };
 
-export { getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElement, isEnterKey, isEscapeKey, createElement, addModalOpen };
+const showInformationAlert = (parametr) => {
+  const dataErrorAlert = document.querySelector(`#${parametr}`).content;
+  const dataErrorFragment = document.createDocumentFragment();
+
+  dataErrorFragment.append(dataErrorAlert);
+  body.append(dataErrorFragment);
+
+  return body.querySelector(`.${parametr}`);
+};
+
+
+const showAlert = () => {
+  const alert = showInformationAlert(DATA_ERROR);
+
+
+  setTimeout(() => {
+    alert.remove();
+  }, ALERT_SHOW_TIME);
+};
+
+export { getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElement, isEnterKey, isEscapeKey, createElement, addModalOpen, showAlert, showInformationAlert };
