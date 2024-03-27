@@ -10,7 +10,7 @@ const imagePreview = document.querySelector('.img-upload__preview img');
 
 let scale;
 
-const doPictureSmaller = () => {
+const onPictureSmaller = () => {
   scale = scaleValueInput.value.replace('%', '');
   if (scale > Scale.MIN) {
     scale = scale - Scale.STEP;
@@ -19,7 +19,7 @@ const doPictureSmaller = () => {
   }
 };
 
-const doPictureBigger = () => {
+const onPictureBigger = () => {
   scale = scaleValueInput.value.replace('%', '');
   if (scale < Scale.MAX) {
     scale = Number(scale) + Scale.STEP;
@@ -33,4 +33,4 @@ const resetImageScale = () => {
   imagePreview.style.transform = 'scale(1)';
 };
 
-export { doPictureBigger, doPictureSmaller, resetImageScale };
+export { onPictureBigger, onPictureSmaller, resetImageScale };
