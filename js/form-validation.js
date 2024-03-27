@@ -20,6 +20,7 @@ const HASHTAG_MAX_COUNT = 5;
 const COMMENT_MAX_LENGTH = 140;
 
 const loadImageForm = document.querySelector('.img-upload__form');
+const loadImageFormInput = document.querySelector('.img-upload__input');
 const hashtagInput = loadImageForm.querySelector('.text__hashtags');
 const commentInput = loadImageForm.querySelector('.text__description');
 
@@ -85,28 +86,40 @@ const onKeydown = (evt) => {
   }
 };
 
+const addEscapeKeydownOnPopup = (popup) => {
+  document.removeEventListener('keydown', onDocumentKeydown);
+  popup.classList.remove('hidden');
+  valuePopup = popup;
+  document.addEventListener('keydown', onKeydown);
+};
+
 const showLoadInfoPopup = (parametr) => {
   if (parametr === InfoPopups.SUCCESS) {
-    document.removeEventListener('keydown', onDocumentKeydown);
-    successPopup.classList.remove('hidden');
-    valuePopup = successPopup;
-    document.addEventListener('keydown', onKeydown);
+    addEscapeKeydownOnPopup(successPopup);
   } else {
-    document.removeEventListener('keydown', onDocumentKeydown);
-    errorPopup.classList.remove('hidden');
-    valuePopup = errorPopup;
-    document.addEventListener('keydown', onKeydown);
+    addEscapeKeydownOnPopup(errorPopup);
   }
 };
 
 successButton.addEventListener('click', () => {
   successPopup.classList.add('hidden');
+  loadImageForm.reset();
   clearForm();
 });
 
 errorButton.addEventListener('click', () => {
   errorPopup.classList.add('hidden');
+
+  const imageInput = loadImageFormInput.value.split(/(\\|\/)/g).pop(); //loadImageFormInput.value;
+  const file = new File([''], imageInput, {type:'image/'});
+  const dataTransfer = new DataTransfer();
+
+  loadImageForm.reset();
+  dataTransfer.items.add(file);
+  loadImageFormInput.files = dataTransfer.files;
+
   clearForm();
+  pristine.validate();
 });
 
 const setPostFormSubmit = (onSuccess) => {

@@ -17,7 +17,6 @@ const applyFilter = () => {
 };
 
 const createSlider = () => {
-  //imagePreview.style.transform = 'scale(1)';
   noUiSlider.create(sliderElement, {
     range: {
       min: 0,
@@ -68,8 +67,4 @@ const clearEffects = () => {
   imagePreview.style.filter = effectOption.none.FILTER_NAME;
 };
 
-const deleteSlider = () => {
-  sliderElement.noUiSlider.destroy();
-};
-
-export { changeImageEffect, sliderElement, clearEffects, createSlider, deleteSlider };
+export { changeImageEffect, sliderElement, clearEffects, createSlider };
