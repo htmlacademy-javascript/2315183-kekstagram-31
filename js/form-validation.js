@@ -78,6 +78,7 @@ const onKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     errorPopup.classList.add('hidden');
+    successPopup.classList.add('hidden');
     document.addEventListener('keydown', onDocumentKeydown);
     document.removeEventListener('keydown', onKeydown);
   }
