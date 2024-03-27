@@ -57,7 +57,6 @@ const showInformationAlert = (parametr) => {
 const showAlert = () => {
   const alert = showInformationAlert(DATA_ERROR);
 
-
   setTimeout(() => {
     alert.remove();
   }, ALERT_SHOW_TIME);

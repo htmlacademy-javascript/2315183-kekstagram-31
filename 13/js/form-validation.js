@@ -71,6 +71,7 @@ pristine.addValidator(hashtagInput, checkHashtagsDuplicates, WrongMasseges.HASHT
 pristine.addValidator(commentInput, checkCommentLength, WrongMasseges.COMMENT_LENGTH);
 
 const checkForm = () => {
+  console.log(pristine.validate());
   pristine.validate();
 };
 
@@ -80,7 +81,6 @@ const onKeydown = (evt) => {
     errorPopup.classList.add('hidden');
     document.addEventListener('keydown', onDocumentKeydown);
     document.removeEventListener('keydown', onKeydown);
-    clearForm();
   }
 };
 
@@ -96,6 +96,7 @@ const showLoadInfoPopup = (parametr) => {
 
 successButton.addEventListener('click', () => {
   successPopup.classList.add('hidden');
+  clearForm();
 });
 
 errorButton.addEventListener('click', () => {
@@ -108,6 +109,7 @@ const setPostFormSubmit = (onSuccess) => {
     evt.preventDefault();
 
     const isValidated = pristine.validate();
+    console.log(isValidated);
     if(isValidated) {
       sendData(new FormData(evt.target))
         .then(onSuccess)
@@ -115,13 +117,14 @@ const setPostFormSubmit = (onSuccess) => {
           showLoadInfoPopup(InfoPopups.SUCCESS);
         })
         .catch(() => {
+          console.log('unsuccess');
           showLoadInfoPopup(InfoPopups.ERROR);
         });
     } else {
+      console.log('unvalidated');
       showLoadInfoPopup(InfoPopups.ERROR);
     }
   });
 };
-
 
 export { checkForm, setPostFormSubmit };
