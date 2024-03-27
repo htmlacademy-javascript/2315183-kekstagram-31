@@ -71,7 +71,6 @@ pristine.addValidator(hashtagInput, checkHashtagsDuplicates, WrongMasseges.HASHT
 pristine.addValidator(commentInput, checkCommentLength, WrongMasseges.COMMENT_LENGTH);
 
 const checkForm = () => {
-  console.log(pristine.validate());
   pristine.validate();
 };
 
@@ -109,7 +108,6 @@ const setPostFormSubmit = (onSuccess) => {
     evt.preventDefault();
 
     const isValidated = pristine.validate();
-    console.log(isValidated);
     if(isValidated) {
       sendData(new FormData(evt.target))
         .then(onSuccess)
@@ -117,11 +115,9 @@ const setPostFormSubmit = (onSuccess) => {
           showLoadInfoPopup(InfoPopups.SUCCESS);
         })
         .catch(() => {
-          console.log('unsuccess');
           showLoadInfoPopup(InfoPopups.ERROR);
         });
     } else {
-      console.log('unvalidated');
       showLoadInfoPopup(InfoPopups.ERROR);
     }
   });

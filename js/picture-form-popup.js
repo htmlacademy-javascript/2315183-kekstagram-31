@@ -27,8 +27,6 @@ const clearInputs = () => {
 };
 
 const clearForm = () => {
-  loadImageFormPopupOpen.value = '';
-
   effectRadioButton.querySelectorAll('.effects__radio')[0].checked = true;
 
   clearEffects();
@@ -55,6 +53,7 @@ const openLoadImageForm = () => {
 };
 
 const closeLoadImageForm = () => {
+  loadImageFormPopupOpen.value = '';
   loadImageFormPopup.classList.add('hidden');
 
   deleteSlider();
