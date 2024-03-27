@@ -1,5 +1,5 @@
 import { sendData } from './api.js';
-import { onDocumentKeydown } from './picture-form-popup.js';
+import { clearForm, onDocumentKeydown } from './picture-form-popup.js';
 import { showInformationAlert, isEscapeKey } from './utils.js';
 
 const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -71,6 +71,7 @@ pristine.addValidator(hashtagInput, checkHashtagsDuplicates, WrongMasseges.HASHT
 pristine.addValidator(commentInput, checkCommentLength, WrongMasseges.COMMENT_LENGTH);
 
 const checkForm = () => {
+  console.log(pristine.validate());
   pristine.validate();
 };
 
@@ -95,10 +96,12 @@ const showLoadInfoPopup = (parametr) => {
 
 successButton.addEventListener('click', () => {
   successPopup.classList.add('hidden');
+  clearForm();
 });
 
 errorButton.addEventListener('click', () => {
   errorPopup.classList.add('hidden');
+  clearForm();
 });
 
 const setPostFormSubmit = (onSuccess) => {
@@ -123,6 +126,5 @@ const setPostFormSubmit = (onSuccess) => {
     }
   });
 };
-
 
 export { checkForm, setPostFormSubmit };

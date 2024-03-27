@@ -36,17 +36,14 @@ const clearForm = () => {
   clearEffects();
   clearInputs();
   resetImageScale();
+  addEffects();
 };
 
 let onDocumentKeydown = () => {};
 
 const openLoadImageForm = () => {
-  clearForm();
-
-  checkForm();
   createSlider();
-  addEffects();
-
+  clearForm();
   addModalOpen();
 
   loadImageFormPopup.classList.remove('hidden');
@@ -55,6 +52,8 @@ const openLoadImageForm = () => {
   scaleSmallerButton.addEventListener('click', doPictureSmaller);
   scaleBiggerButton.addEventListener('click', doPictureBigger);
   effectRadioButton.addEventListener('change', addEffects);
+
+  checkForm();
 };
 
 const closeLoadImageForm = () => {
@@ -88,4 +87,4 @@ onDocumentKeydown = (evt) => {
   }
 };
 
-export { closeLoadImageForm, onDocumentKeydown, clearForm };
+export { closeLoadImageForm, onDocumentKeydown, clearForm, addEffects };
