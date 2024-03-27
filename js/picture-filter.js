@@ -17,7 +17,7 @@ const applyFilter = () => {
 };
 
 const createSlider = () => {
-  imagePreview.style.transform = 'scale(1)';
+  //imagePreview.style.transform = 'scale(1)';
   noUiSlider.create(sliderElement, {
     range: {
       min: 0,

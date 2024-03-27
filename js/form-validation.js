@@ -1,5 +1,5 @@
 import { sendData } from './api.js';
-import { clearForm, onDocumentKeydown } from './picture-form-popup.js';
+import { onDocumentKeydown } from './picture-form-popup.js';
 import { showInformationAlert, isEscapeKey } from './utils.js';
 
 const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -80,7 +80,6 @@ const onKeydown = (evt) => {
     errorPopup.classList.add('hidden');
     document.addEventListener('keydown', onDocumentKeydown);
     document.removeEventListener('keydown', onKeydown);
-    clearForm();
   }
 };
 
@@ -96,12 +95,10 @@ const showLoadInfoPopup = (parametr) => {
 
 successButton.addEventListener('click', () => {
   successPopup.classList.add('hidden');
-  clearForm();
 });
 
 errorButton.addEventListener('click', () => {
   errorPopup.classList.add('hidden');
-  clearForm();
 });
 
 const setPostFormSubmit = (onSuccess) => {
@@ -109,6 +106,7 @@ const setPostFormSubmit = (onSuccess) => {
     evt.preventDefault();
 
     const isValidated = pristine.validate();
+    console.log(isValidated);
     if(isValidated) {
       sendData(new FormData(evt.target))
         .then(onSuccess)
@@ -116,9 +114,11 @@ const setPostFormSubmit = (onSuccess) => {
           showLoadInfoPopup(InfoPopups.SUCCESS);
         })
         .catch(() => {
+          console.log('unsuccess');
           showLoadInfoPopup(InfoPopups.ERROR);
         });
     } else {
+      console.log('unvalidated');
       showLoadInfoPopup(InfoPopups.ERROR);
     }
   });
