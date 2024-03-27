@@ -74,11 +74,12 @@ const checkForm = () => {
   pristine.validate();
 };
 
+let valuePopup;
+
 const onKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    errorPopup.classList.add('hidden');
-    successPopup.classList.add('hidden');
+    valuePopup.classList.add('hidden');
     document.addEventListener('keydown', onDocumentKeydown);
     document.removeEventListener('keydown', onKeydown);
   }
@@ -86,10 +87,14 @@ const onKeydown = (evt) => {
 
 const showLoadInfoPopup = (parametr) => {
   if (parametr === InfoPopups.SUCCESS) {
+    document.removeEventListener('keydown', onDocumentKeydown);
     successPopup.classList.remove('hidden');
+    valuePopup = successPopup;
+    document.addEventListener('keydown', onKeydown);
   } else {
     document.removeEventListener('keydown', onDocumentKeydown);
     errorPopup.classList.remove('hidden');
+    valuePopup = errorPopup;
     document.addEventListener('keydown', onKeydown);
   }
 };
