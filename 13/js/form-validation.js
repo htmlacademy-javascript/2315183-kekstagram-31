@@ -71,14 +71,15 @@ pristine.addValidator(hashtagInput, checkHashtagsDuplicates, WrongMasseges.HASHT
 pristine.addValidator(commentInput, checkCommentLength, WrongMasseges.COMMENT_LENGTH);
 
 const checkForm = () => {
-  console.log(pristine.validate());
   pristine.validate();
 };
+
+let valuePopup;
 
 const onKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    errorPopup.classList.add('hidden');
+    valuePopup.classList.add('hidden');
     document.addEventListener('keydown', onDocumentKeydown);
     document.removeEventListener('keydown', onKeydown);
   }
@@ -86,10 +87,14 @@ const onKeydown = (evt) => {
 
 const showLoadInfoPopup = (parametr) => {
   if (parametr === InfoPopups.SUCCESS) {
+    document.removeEventListener('keydown', onDocumentKeydown);
     successPopup.classList.remove('hidden');
+    valuePopup = successPopup;
+    document.addEventListener('keydown', onKeydown);
   } else {
     document.removeEventListener('keydown', onDocumentKeydown);
     errorPopup.classList.remove('hidden');
+    valuePopup = errorPopup;
     document.addEventListener('keydown', onKeydown);
   }
 };
@@ -109,7 +114,6 @@ const setPostFormSubmit = (onSuccess) => {
     evt.preventDefault();
 
     const isValidated = pristine.validate();
-    console.log(isValidated);
     if(isValidated) {
       sendData(new FormData(evt.target))
         .then(onSuccess)
@@ -117,11 +121,9 @@ const setPostFormSubmit = (onSuccess) => {
           showLoadInfoPopup(InfoPopups.SUCCESS);
         })
         .catch(() => {
-          console.log('unsuccess');
           showLoadInfoPopup(InfoPopups.ERROR);
         });
     } else {
-      console.log('unvalidated');
       showLoadInfoPopup(InfoPopups.ERROR);
     }
   });

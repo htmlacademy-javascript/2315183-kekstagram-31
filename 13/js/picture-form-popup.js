@@ -8,8 +8,6 @@ const loadImageFormPopup = document.querySelector('.img-upload__overlay');
 const loadImageFormPopupOpen = document.querySelector('.img-upload__input');
 const loadImageFormPopupClose = loadImageFormPopup.querySelector('.img-upload__cancel');
 
-//const imagePreview = document.querySelector('.img-upload__preview img');
-
 const hashtagInput = loadImageFormPopup.querySelector('.text__hashtags');
 const commentInput = loadImageFormPopup.querySelector('.text__description');
 
@@ -29,8 +27,6 @@ const clearInputs = () => {
 };
 
 const clearForm = () => {
-  loadImageFormPopupOpen.value = '';
-
   effectRadioButton.querySelectorAll('.effects__radio')[0].checked = true;
 
   clearEffects();
@@ -57,11 +53,10 @@ const openLoadImageForm = () => {
 };
 
 const closeLoadImageForm = () => {
+  loadImageFormPopupOpen.value = '';
   loadImageFormPopup.classList.add('hidden');
-  //clearForm();
 
   deleteSlider();
-
   addModalOpen();
 
   document.removeEventListener('keydown', onDocumentKeydown);
