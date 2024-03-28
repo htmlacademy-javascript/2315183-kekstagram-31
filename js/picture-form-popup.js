@@ -1,4 +1,4 @@
-import { addModalOpen, createElement, isEscapeKey } from './utils.js';
+import { addModalOpen, isEscapeKey } from './utils.js';
 import { onPictureBigger, onPictureSmaller, resetImageScale } from './picture_scale.js';
 import { changeImageEffect, clearEffects, createSlider } from './picture-filter.js';
 import { checkForm } from './form-validation.js';
