@@ -53,7 +53,6 @@ const showInformationAlert = (parametr) => {
   return body.querySelector(`.${parametr}`);
 };
 
-
 const showAlert = () => {
   const alert = showInformationAlert(DATA_ERROR);
 
@@ -62,4 +61,13 @@ const showAlert = () => {
   }, ALERT_SHOW_TIME);
 };
 
-export { getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElement, isEnterKey, isEscapeKey, createElement, addModalOpen, showAlert, showInformationAlert };
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export { getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElement, isEnterKey, isEscapeKey, createElement, addModalOpen, showAlert, showInformationAlert, debounce };
