@@ -43,6 +43,12 @@ const addModalOpen = () => {
   modalOpen.classList.toggle('modal-open');
 };
 
+const stopPropagationIfEscapeKey = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.stopPropagation();
+  }
+};
+
 const showInformationAlert = (parametr) => {
   const dataErrorAlert = document.querySelector(`#${parametr}`).content;
   const dataErrorFragment = document.createDocumentFragment();
@@ -70,4 +76,16 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export { getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElement, isEnterKey, isEscapeKey, createElement, addModalOpen, showAlert, showInformationAlert, debounce };
+export {
+  getRandomInteger,
+  createRandomIdFromRangeGenerator,
+  getRandomArrayElement,
+  isEnterKey,
+  isEscapeKey,
+  createElement,
+  addModalOpen,
+  showAlert,
+  showInformationAlert,
+  debounce,
+  stopPropagationIfEscapeKey
+};

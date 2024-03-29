@@ -29,6 +29,18 @@ const onAddEffects = () => {
   changeImageEffect(checkedButton);
 };
 
+let isActive = false;
+
+const onInputIntoForm = () => {
+  isActive = true;
+};
+
+const onInputOutForm = () => {
+  isActive = false;
+  hashtagInput.removeEventListener('focus', onInputOutForm);
+  commentInput.removeEventListener('focus', onInputOutForm);
+};
+
 const clearForm = () => {
   effectRadioButton.querySelectorAll('.effects__radio')[0].checked = true;
 
@@ -59,6 +71,11 @@ const openLoadImageForm = () => {
 
   loadImageFormPopup.classList.remove('hidden');
 
+  hashtagInput.addEventListener('focus', onInputIntoForm);
+  commentInput.addEventListener('focus', onInputIntoForm);
+  hashtagInput.addEventListener('blur', onInputOutForm);
+  commentInput.addEventListener('blur', onInputOutForm);
+
   document.addEventListener('keydown', onDocumentKeydown);
   scaleSmallerButton.addEventListener('click', onPictureSmaller);
   scaleBiggerButton.addEventListener('click', onPictureBigger);
@@ -73,6 +90,11 @@ const closeLoadImageForm = () => {
   loadImageFormPopup.classList.add('hidden');
 
   addModalOpen();
+
+  hashtagInput.removeEventListener('focus', onInputIntoForm);
+  commentInput.removeEventListener('focus', onInputIntoForm);
+  hashtagInput.removeEventListener('blur', onInputOutForm);
+  commentInput.removeEventListener('blur', onInputOutForm);
 
   document.removeEventListener('keydown', onDocumentKeydown);
   scaleSmallerButton.removeEventListener('click', onPictureSmaller);
@@ -90,8 +112,15 @@ loadImageFormPopupClose.addEventListener('click', () => {
 
 onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
-    if (!(document.activeElement === hashtagInput) || !(document.activeElement === commentInput)) {
-      evt.preventDefault();
+    // if (!(document.activeElement === hashtagInput) || !(document.activeElement === commentInput)) {
+    //   evt.preventDefault();
+    //   closeLoadImageForm();
+    // }
+    evt.preventDefault();
+    if(isActive) {
+      evt.stopPropagation();
+    } else {
+
       closeLoadImageForm();
     }
   }

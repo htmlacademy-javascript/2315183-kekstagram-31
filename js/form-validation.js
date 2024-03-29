@@ -34,8 +34,6 @@ errorPopup.classList.add('hidden');
 
 const pristine = new Pristine(loadImageForm, {
   classTo: 'img-upload__field-wrapper',
-  errorClass: 'img-upload__field-wrappe--invalid',
-  successClass: 'img-upload__field-wrappe--valid',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextTag: 'div',
   errorTextClass: 'img-upload__field-wrapper--error'
@@ -66,9 +64,9 @@ const checkHashtagsDuplicates = (value) => {
 
 const checkCommentLength = (value) => value.length <= COMMENT_MAX_LENGTH;
 
-pristine.addValidator(hashtagInput, checkHashtags, WrongMasseges.HASTAG_TEXT);
-pristine.addValidator(hashtagInput, checkCountHashtags, WrongMasseges.HASHTAG_COUNT);
-pristine.addValidator(hashtagInput, checkHashtagsDuplicates, WrongMasseges.HASHTAG_DUPLICATE);
+pristine.addValidator(hashtagInput, checkHashtags, WrongMasseges.HASTAG_TEXT, 3, true);
+pristine.addValidator(hashtagInput, checkHashtagsDuplicates, WrongMasseges.HASHTAG_DUPLICATE, 2, true);
+pristine.addValidator(hashtagInput, checkCountHashtags, WrongMasseges.HASHTAG_COUNT, 1, true);
 pristine.addValidator(commentInput, checkCommentLength, WrongMasseges.COMMENT_LENGTH);
 
 const checkForm = () => {
