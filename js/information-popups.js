@@ -21,6 +21,8 @@ let successButton;
 let successPopup;
 let errorButton;
 let errorPopup;
+// let errorLoadPopup;
+// let errorLoadButton;
 let valuePopup;
 
 const blockSubmitButton = () => {
@@ -141,6 +143,22 @@ const createErrorPopup = () => {
   document.addEventListener('click', onClickErrorPopupOutside);
 };
 
+// const createErrorLoadImagePopup = () => {
+//   errorLoadPopup = showInformationAlert(InfoPopups.ERROR);
+//   errorLoadButton = errorLoadPopup.querySelector(`.${InfoPopups.ERROR}__button`);
+
+//   document.removeEventListener('keydown', onDocumentKeydown);
+//   errorLoadPopup.classList.remove('hidden');
+//   valuePopup = errorLoadPopup;
+//   document.addEventListener('keydown', onKeydown);
+
+//   unlockSubmitButton();
+//   checkForm();
+
+//   errorLoadButton.addEventListener('click', onErrorButtonClick);
+//   document.addEventListener('click', onClickErrorPopupOutside);
+// };
+
 const setPostFormSubmit = (onSuccess) => {
   loadImageForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -162,4 +180,4 @@ const setPostFormSubmit = (onSuccess) => {
   });
 };
 
-export { setPostFormSubmit };
+export { setPostFormSubmit, createErrorPopup };

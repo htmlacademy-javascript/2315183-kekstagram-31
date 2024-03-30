@@ -63,6 +63,9 @@ const setPersonalImage = () => {
       item.style.backgroundImage = `url("${imagePreview.src}")`;
     });
   }
+  // } else {
+  //   createErrorLoadImagePopup();
+  // }
 };
 
 const openLoadImageForm = () => {
