@@ -1,7 +1,7 @@
 import { addModalOpen, isEscapeKey } from './utils.js';
 import { onPictureBigger, onPictureSmaller, resetImageScale } from './picture_scale.js';
 import { changeImageEffect, clearEffects, createSlider } from './picture-filter.js';
-import { checkForm } from './form-validation.js';
+import { checkForm, resetValidate } from './form-validation.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
@@ -47,6 +47,7 @@ const clearForm = () => {
   clearEffects();
   resetImageScale();
   onAddEffects();
+  resetValidate();
 };
 
 const setPersonalImage = () => {
@@ -112,15 +113,10 @@ loadImageFormPopupClose.addEventListener('click', () => {
 
 onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
-    // if (!(document.activeElement === hashtagInput) || !(document.activeElement === commentInput)) {
-    //   evt.preventDefault();
-    //   closeLoadImageForm();
-    // }
     evt.preventDefault();
     if(isActive) {
       evt.stopPropagation();
     } else {
-
       closeLoadImageForm();
     }
   }
