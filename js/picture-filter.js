@@ -23,7 +23,18 @@ const createSlider = () => {
       max: 100,
     },
     start: 100,
-    connect: 'lower'
+    connect: 'lower',
+    format: {
+      to: function (value) {
+        if (Number.isInteger(value)) {
+          return value.toFixed(0);
+        }
+        return value.toFixed(1);
+      },
+      from: function (value) {
+        return parseFloat(value);
+      },
+    },
   });
   sliderElement.setAttribute('disabled', true);
   sliderPanel.classList.add('hidden');

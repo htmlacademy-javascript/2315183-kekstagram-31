@@ -1,13 +1,18 @@
 import { addModalOpen, isEscapeKey } from './utils.js';
-import { onPictureBigger, onPictureSmaller, resetImageScale } from './picture_scale.js';
+import { onPictureBigger, onPictureSmaller, resetImageScale } from './picture-scale.js';
 import { changeImageEffect, clearEffects, createSlider } from './picture-filter.js';
-import { checkForm } from './form-validation.js';
+import { checkForm, destroyPristine, resetValidate, isValidated } from './form-validation.js';
+
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const loadImageFormPopup = document.querySelector('.img-upload__overlay');
 const loadImageFormPopupOpen = document.querySelector('.img-upload__input');
 const loadImageFormPopupClose = loadImageFormPopup.querySelector('.img-upload__cancel');
 
 const loadImageForm = document.querySelector('.img-upload__form');
+
+const imagePreview = loadImageForm.querySelector('.img-upload__preview img');
+const imageEffectPreview = loadImageForm.querySelectorAll('.effects__preview');
 
 const hashtagInput = loadImageFormPopup.querySelector('.text__hashtags');
 const commentInput = loadImageFormPopup.querySelector('.text__description');
@@ -17,9 +22,20 @@ const scaleBiggerButton = loadImageFormPopup.querySelector('.scale__control--big
 
 const effectRadioButton = document.querySelector('.effects__list');
 
+let onDocumentKeydown = () => {};
+
 const onAddEffects = () => {
   const checkedButton = effectRadioButton.querySelector('input[name="effect"]:checked').value;
   changeImageEffect(checkedButton);
+};
+
+const onValidate = () => {
+  if (isValidated()) {
+    checkForm();
+    destroyPristine();
+  } else {
+    checkForm();
+  }
 };
 
 const clearForm = () => {
@@ -28,35 +44,44 @@ const clearForm = () => {
   clearEffects();
   resetImageScale();
   onAddEffects();
+  resetValidate();
+  destroyPristine();
 };
 
-let onDocumentKeydown = () => {};
+const setPersonalImage = () => {
+  const image = loadImageFormPopupOpen.files[0];
+  const imageName = image.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => imageName.endsWith(it));
+
+  if (matches) {
+    imagePreview.src = URL.createObjectURL(image);
+
+    imageEffectPreview.forEach((item) => {
+      item.style.backgroundImage = `url("${imagePreview.src}")`;
+    });
+  }
+};
 
 const openLoadImageForm = () => {
-  clearForm();
+  //initValidation();
   addModalOpen();
+  setPersonalImage();
 
   loadImageFormPopup.classList.remove('hidden');
 
   document.addEventListener('keydown', onDocumentKeydown);
-  scaleSmallerButton.addEventListener('click', onPictureSmaller);
-  scaleBiggerButton.addEventListener('click', onPictureBigger);
-  effectRadioButton.addEventListener('change', onAddEffects);
-
-  checkForm();
 };
 
 const closeLoadImageForm = () => {
   loadImageFormPopupOpen.value = '';
   loadImageForm.reset();
+  clearForm();
   loadImageFormPopup.classList.add('hidden');
 
   addModalOpen();
 
   document.removeEventListener('keydown', onDocumentKeydown);
-  scaleSmallerButton.removeEventListener('click', onPictureSmaller);
-  scaleBiggerButton.removeEventListener('click', onPictureBigger);
-  effectRadioButton.removeEventListener('change', onAddEffects);
 };
 
 loadImageFormPopupOpen.addEventListener('change', () => {
@@ -68,14 +93,18 @@ loadImageFormPopupClose.addEventListener('click', () => {
 });
 
 onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    if (!(document.activeElement === hashtagInput) || !(document.activeElement === commentInput)) {
-      evt.preventDefault();
-      closeLoadImageForm();
-    }
+  if (isEscapeKey(evt) && document.activeElement !== hashtagInput && document.activeElement !== commentInput) {
+    evt.preventDefault();
+    closeLoadImageForm();
   }
 };
 
 createSlider();
+
+scaleSmallerButton.addEventListener('click', onPictureSmaller);
+scaleBiggerButton.addEventListener('click', onPictureBigger);
+effectRadioButton.addEventListener('change', onAddEffects);
+hashtagInput.addEventListener('input', onValidate);
+commentInput.addEventListener('input', onValidate);
 
 export { closeLoadImageForm, onDocumentKeydown, clearForm, onAddEffects };

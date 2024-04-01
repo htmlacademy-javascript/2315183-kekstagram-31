@@ -34,7 +34,10 @@ const isEnterKey = (evt) => evt.key === 'Enter';
 
 const createElement = (element, className) => {
   const newElement = document.createElement(`${element}`);
-  newElement.classList.add(`${className}`);
+
+  if (className) {
+    newElement.classList.add(`${className}`);
+  }
   return newElement;
 };
 
@@ -43,18 +46,29 @@ const addModalOpen = () => {
   modalOpen.classList.toggle('modal-open');
 };
 
+const stopPropagationIfEscapeKey = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.stopPropagation();
+  }
+};
+
 const showInformationAlert = (parametr) => {
-  const dataErrorAlert = document.querySelector(`#${parametr}`).content;
-  const dataErrorFragment = document.createDocumentFragment();
+  const dataAlert = document.querySelector(`#${parametr}`).content;
+  const dataFragment = document.createDocumentFragment();
 
-  dataErrorFragment.append(dataErrorAlert);
-  body.append(dataErrorFragment);
+  dataFragment.append(dataAlert);
 
+  return dataFragment;
+};
+
+const appendPopupInBody = (parametr, fragment) => {
+  body.append(fragment);
   return body.querySelector(`.${parametr}`);
 };
 
 const showAlert = () => {
-  const alert = showInformationAlert(DATA_ERROR);
+  const alertFragment = showInformationAlert(DATA_ERROR);
+  const alert = appendPopupInBody(DATA_ERROR, alertFragment);
 
   setTimeout(() => {
     alert.remove();
@@ -70,4 +84,17 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export { getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElement, isEnterKey, isEscapeKey, createElement, addModalOpen, showAlert, showInformationAlert, debounce };
+export {
+  getRandomInteger,
+  createRandomIdFromRangeGenerator,
+  getRandomArrayElement,
+  isEnterKey,
+  isEscapeKey,
+  createElement,
+  addModalOpen,
+  showAlert,
+  showInformationAlert,
+  debounce,
+  stopPropagationIfEscapeKey,
+  appendPopupInBody
+};
