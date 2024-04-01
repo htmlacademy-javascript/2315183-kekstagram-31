@@ -1,7 +1,6 @@
-import { sendData } from './api.js';
-import { checkForm, pristine } from './form-validation.js';
 import { clearForm, onDocumentKeydown } from './picture-form-popup.js';
-import { showInformationAlert, isEscapeKey } from './utils.js';
+import { showInformationAlert, isEscapeKey, appendPopupInBody } from './utils.js';
+import { checkForm } from './form-validation.js';
 
 const InfoPopups = {
   ERROR: 'error',
@@ -14,15 +13,26 @@ const SubmitButtonText = {
 };
 
 const loadImageForm = document.querySelector('.img-upload__form');
-const loadImageFormInput = document.querySelector('.img-upload__input');
 const submitButton = loadImageForm.querySelector('.img-upload__submit');
 
-let successButton;
 let successPopup;
-let errorButton;
+let successInnerPopup;
 let errorPopup;
-// let errorLoadPopup;
-// let errorLoadButton;
+let errorInnerPopup;
+
+const successPopupFragment = showInformationAlert(InfoPopups.SUCCESS);
+const errorPopupFragment = showInformationAlert(InfoPopups.ERROR);
+
+// const successPopup = appendPopupInBody(InfoPopups.SUCCESS, successPopupFragment);
+// const successButton = successPopup.querySelector(`.${InfoPopups.SUCCESS}__button`);
+// const successInnerPopup = successPopup.querySelector(`.${InfoPopups.SUCCESS}__inner`);
+// successPopup.classList.add('hidden');
+
+// const errorPopup = appendPopupInBody(InfoPopups.ERROR, errorPopupFragment);
+// const errorButton = errorPopup.querySelector(`.${InfoPopups.ERROR}__button`);
+// const errorInnerPopup = errorPopup.querySelector(`.${InfoPopups.ERROR}__inner`);
+// errorPopup.classList.add('hidden');
+
 let valuePopup;
 
 const blockSubmitButton = () => {
@@ -35,41 +45,25 @@ const unlockSubmitButton = () => {
   submitButton.textContent = SubmitButtonText.IDLE;
 };
 
-const clearFormOnErrorButton = () => {
-  const imageInput = loadImageFormInput.value.split(/(\\|\/)/g).pop();
-  const file = new File([''], imageInput, {type:'image/'});
-  const dataTransfer = new DataTransfer();
-
-  loadImageForm.reset();
-  dataTransfer.items.add(file);
-  loadImageFormInput.files = dataTransfer.files;
-
-  unlockSubmitButton();
-
-  clearForm();
-  checkForm();
-};
-
 const onSuccessButtonClick = () => {
   loadImageForm.reset();
   clearForm();
-
   successPopup.classList.add('hidden');
-  successButton.removeEventListener('click', onSuccessButtonClick);
+  successPopup.remove();
 };
 
 const onErrorButtonClick = () => {
   errorPopup.classList.add('hidden');
 
-  clearFormOnErrorButton();
-
-  errorButton.removeEventListener('click', onErrorButtonClick);
+  errorPopup.remove();
 };
 
 const onKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    valuePopup.classList.add('hidden');
+    valuePopup.remove();
+    loadImageForm.reset();
+    clearForm();
     document.addEventListener('keydown', onDocumentKeydown);
     document.removeEventListener('keydown', onKeydown);
   }
@@ -77,107 +71,69 @@ const onKeydown = (evt) => {
 
 const addEscapeKeydownOnPopup = (popup) => {
   document.removeEventListener('keydown', onDocumentKeydown);
-  popup.classList.remove('hidden');
   valuePopup = popup;
   document.addEventListener('keydown', onKeydown);
 
   unlockSubmitButton();
 
-  //loadImageForm.reset();
-  //clearForm();
   checkForm();
 };
 
 const showLoadInfoPopup = (parametr) => {
   if (parametr === InfoPopups.SUCCESS) {
     addEscapeKeydownOnPopup(successPopup);
-    successButton.removeEventListener('click', onSuccessButtonClick);
   } else {
     addEscapeKeydownOnPopup(errorPopup);
-    errorButton.removeEventListener('click', onErrorButtonClick);
   }
 };
 
 const onClickSuccessPopupOutside = (evt) => {
-  const popupSuccess = document.querySelector(`.${InfoPopups.SUCCESS}__inner`);
-  const clickSuccess = evt.composedPath().includes(popupSuccess);
+  const clickSuccess = evt.composedPath().includes(successInnerPopup);
 
   if (!clickSuccess) {
     successPopup.classList.add('hidden');
-
-    document.removeEventListener('click', onClickSuccessPopupOutside);
+    successPopup.remove();
   }
 };
 
 const onClickErrorPopupOutside = (evt) => {
-  const popupError = document.querySelector(`.${InfoPopups.ERROR}__inner`);
-  const clickError = evt.composedPath().includes(popupError);
+  const clickError = evt.composedPath().includes(errorInnerPopup);
 
   if (!clickError) {
     errorPopup.classList.add('hidden');
-
-    clearFormOnErrorButton();
-
-    document.removeEventListener('click', onClickErrorPopupOutside);
+    errorPopup.remove();
   }
 };
 
+const createElementPopup = (elementFragment, infoTitle) => {
+  const elementCloneFragment = elementFragment.cloneNode(true);
+
+  const elementPopup = appendPopupInBody(infoTitle, elementCloneFragment);
+  const elementButton = elementPopup.querySelector(`.${infoTitle}__button`);
+
+  if (infoTitle === InfoPopups.SUCCESS) {
+    elementButton.addEventListener('click', onSuccessButtonClick);
+    elementPopup.addEventListener('click', onClickSuccessPopupOutside);
+  } else {
+    elementButton.addEventListener('click', onErrorButtonClick);
+    elementPopup.addEventListener('click', onClickErrorPopupOutside);
+  }
+
+  return elementPopup;
+};
+
 const createSuccessPopup = () => {
-  successPopup = showInformationAlert(InfoPopups.SUCCESS);
-  successButton = successPopup.querySelector(`.${InfoPopups.SUCCESS}__button`);
-  successPopup.classList.remove('hidden');
+  successPopup = createElementPopup(successPopupFragment, InfoPopups.SUCCESS);
+  successInnerPopup = successPopup.querySelector(`.${InfoPopups.SUCCESS}__inner`);
 
   showLoadInfoPopup(InfoPopups.SUCCESS);
-  successButton.addEventListener('click', onSuccessButtonClick);
-
-  document.addEventListener('click', onClickSuccessPopupOutside);
 };
 
 const createErrorPopup = () => {
-  errorPopup = showInformationAlert(InfoPopups.ERROR);
-  errorButton = errorPopup.querySelector(`.${InfoPopups.ERROR}__button`);
+  errorPopup = createElementPopup(errorPopupFragment, InfoPopups.ERROR);
+  errorInnerPopup = errorPopup.querySelector(`.${InfoPopups.ERROR}__inner`);
 
   showLoadInfoPopup(InfoPopups.ERROR);
-  errorButton.addEventListener('click', onErrorButtonClick);
-
-  document.addEventListener('click', onClickErrorPopupOutside);
 };
 
-// const createErrorLoadImagePopup = () => {
-//   errorLoadPopup = showInformationAlert(InfoPopups.ERROR);
-//   errorLoadButton = errorLoadPopup.querySelector(`.${InfoPopups.ERROR}__button`);
-
-//   document.removeEventListener('keydown', onDocumentKeydown);
-//   errorLoadPopup.classList.remove('hidden');
-//   valuePopup = errorLoadPopup;
-//   document.addEventListener('keydown', onKeydown);
-
-//   unlockSubmitButton();
-//   checkForm();
-
-//   errorLoadButton.addEventListener('click', onErrorButtonClick);
-//   document.addEventListener('click', onClickErrorPopupOutside);
-// };
-
-const setPostFormSubmit = (onSuccess) => {
-  loadImageForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const isValidated = pristine.validate();
-    blockSubmitButton();
-    if(isValidated) {
-      sendData(new FormData(evt.target))
-        .then(onSuccess)
-        .then(() => {
-          createSuccessPopup();
-        })
-        .catch(() => {
-          createErrorPopup();
-        })
-        .finally(unlockSubmitButton);
-    } else {
-      createErrorPopup();
-    }
-  });
-};
-
-export { setPostFormSubmit, createErrorPopup };
+export { createErrorPopup, createSuccessPopup, blockSubmitButton, unlockSubmitButton };

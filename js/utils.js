@@ -34,7 +34,10 @@ const isEnterKey = (evt) => evt.key === 'Enter';
 
 const createElement = (element, className) => {
   const newElement = document.createElement(`${element}`);
-  newElement.classList.add(`${className}`);
+
+  if (className) {
+    newElement.classList.add(`${className}`);
+  }
   return newElement;
 };
 
@@ -50,17 +53,22 @@ const stopPropagationIfEscapeKey = (evt) => {
 };
 
 const showInformationAlert = (parametr) => {
-  const dataErrorAlert = document.querySelector(`#${parametr}`).content;
-  const dataErrorFragment = document.createDocumentFragment();
+  const dataAlert = document.querySelector(`#${parametr}`).content;
+  const dataFragment = document.createDocumentFragment();
 
-  dataErrorFragment.append(dataErrorAlert);
-  body.append(dataErrorFragment);
+  dataFragment.append(dataAlert);
 
+  return dataFragment;
+};
+
+const appendPopupInBody = (parametr, fragment) => {
+  body.append(fragment);
   return body.querySelector(`.${parametr}`);
 };
 
 const showAlert = () => {
-  const alert = showInformationAlert(DATA_ERROR);
+  const alertFragment = showInformationAlert(DATA_ERROR);
+  const alert = appendPopupInBody(DATA_ERROR, alertFragment);
 
   setTimeout(() => {
     alert.remove();
@@ -87,5 +95,6 @@ export {
   showAlert,
   showInformationAlert,
   debounce,
-  stopPropagationIfEscapeKey
+  stopPropagationIfEscapeKey,
+  appendPopupInBody
 };

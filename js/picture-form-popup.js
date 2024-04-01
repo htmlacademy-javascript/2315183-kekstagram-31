@@ -1,7 +1,7 @@
 import { addModalOpen, isEscapeKey } from './utils.js';
-import { onPictureBigger, onPictureSmaller, resetImageScale } from './picture_scale.js';
+import { onPictureBigger, onPictureSmaller, resetImageScale } from './picture-scale.js';
 import { changeImageEffect, clearEffects, createSlider } from './picture-filter.js';
-import { checkForm, resetValidate } from './form-validation.js';
+import { checkForm, destroyPristine, initValidation, resetValidate } from './form-validation.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
@@ -29,18 +29,6 @@ const onAddEffects = () => {
   changeImageEffect(checkedButton);
 };
 
-let isActive = false;
-
-const onInputIntoForm = () => {
-  isActive = true;
-};
-
-const onInputOutForm = () => {
-  isActive = false;
-  hashtagInput.removeEventListener('focus', onInputOutForm);
-  commentInput.removeEventListener('focus', onInputOutForm);
-};
-
 const clearForm = () => {
   effectRadioButton.querySelectorAll('.effects__radio')[0].checked = true;
 
@@ -48,6 +36,7 @@ const clearForm = () => {
   resetImageScale();
   onAddEffects();
   resetValidate();
+  destroyPristine();
 };
 
 const setPersonalImage = () => {
@@ -63,27 +52,16 @@ const setPersonalImage = () => {
       item.style.backgroundImage = `url("${imagePreview.src}")`;
     });
   }
-  // } else {
-  //   createErrorLoadImagePopup();
-  // }
 };
 
 const openLoadImageForm = () => {
-  clearForm();
+  initValidation();
   addModalOpen();
   setPersonalImage();
 
   loadImageFormPopup.classList.remove('hidden');
 
-  hashtagInput.addEventListener('focus', onInputIntoForm);
-  commentInput.addEventListener('focus', onInputIntoForm);
-  hashtagInput.addEventListener('blur', onInputOutForm);
-  commentInput.addEventListener('blur', onInputOutForm);
-
   document.addEventListener('keydown', onDocumentKeydown);
-  scaleSmallerButton.addEventListener('click', onPictureSmaller);
-  scaleBiggerButton.addEventListener('click', onPictureBigger);
-  effectRadioButton.addEventListener('change', onAddEffects);
 
   checkForm();
 };
@@ -91,19 +69,12 @@ const openLoadImageForm = () => {
 const closeLoadImageForm = () => {
   loadImageFormPopupOpen.value = '';
   loadImageForm.reset();
+  clearForm();
   loadImageFormPopup.classList.add('hidden');
 
   addModalOpen();
 
-  hashtagInput.removeEventListener('focus', onInputIntoForm);
-  commentInput.removeEventListener('focus', onInputIntoForm);
-  hashtagInput.removeEventListener('blur', onInputOutForm);
-  commentInput.removeEventListener('blur', onInputOutForm);
-
   document.removeEventListener('keydown', onDocumentKeydown);
-  scaleSmallerButton.removeEventListener('click', onPictureSmaller);
-  scaleBiggerButton.removeEventListener('click', onPictureBigger);
-  effectRadioButton.removeEventListener('change', onAddEffects);
 };
 
 loadImageFormPopupOpen.addEventListener('change', () => {
@@ -115,16 +86,16 @@ loadImageFormPopupClose.addEventListener('click', () => {
 });
 
 onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && document.activeElement !== hashtagInput && document.activeElement !== commentInput) {
     evt.preventDefault();
-    if(isActive) {
-      evt.stopPropagation();
-    } else {
-      closeLoadImageForm();
-    }
+    closeLoadImageForm();
   }
 };
 
 createSlider();
+
+scaleSmallerButton.addEventListener('click', onPictureSmaller);
+scaleBiggerButton.addEventListener('click', onPictureBigger);
+effectRadioButton.addEventListener('change', onAddEffects);
 
 export { closeLoadImageForm, onDocumentKeydown, clearForm, onAddEffects };

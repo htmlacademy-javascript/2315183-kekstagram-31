@@ -1,3 +1,4 @@
+const MAX_COUNT_RANDOM_MINIATURE = 10;
 
 const imageFilterBlock = document.querySelector('.img-filters');
 
@@ -21,7 +22,7 @@ const getCountMiniatures = (items) => {
   let countMiniatures = items.length;
 
   if (activeButton.id === 'filter-random') {
-    countMiniatures = 10;
+    countMiniatures = MAX_COUNT_RANDOM_MINIATURE;
   }
 
   return countMiniatures;
