@@ -77,7 +77,7 @@ const destroyPristine = () => {
 const setPostFormSubmit = (onSuccess) => {
   loadImageForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    initValidation();
+    //initValidation();
     if(isValidated()) {
       blockSubmitButton();
       sendData(new FormData(evt.target))

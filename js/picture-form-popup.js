@@ -1,7 +1,7 @@
 import { addModalOpen, isEscapeKey } from './utils.js';
 import { onPictureBigger, onPictureSmaller, resetImageScale } from './picture-scale.js';
 import { changeImageEffect, clearEffects, createSlider } from './picture-filter.js';
-import { checkForm, destroyPristine, initValidation, isValidated, resetValidate } from './form-validation.js';
+import { checkForm, destroyPristine, resetValidate, isValidated } from './form-validation.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
@@ -30,8 +30,6 @@ const onAddEffects = () => {
 };
 
 const onValidate = () => {
-  initValidation();
-
   if (isValidated()) {
     checkForm();
     destroyPristine();

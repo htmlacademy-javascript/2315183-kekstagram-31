@@ -1,6 +1,6 @@
 import { clearForm, onDocumentKeydown } from './picture-form-popup.js';
 import { showInformationAlert, isEscapeKey, appendPopupInBody } from './utils.js';
-import { checkForm } from './form-validation.js';
+import { destroyPristine } from './form-validation.js';
 
 const InfoPopups = {
   ERROR: 'error',
@@ -76,7 +76,7 @@ const addEscapeKeydownOnPopup = (popup) => {
 
   unlockSubmitButton();
 
-  checkForm();
+  destroyPristine();
 };
 
 const showLoadInfoPopup = (parametr) => {

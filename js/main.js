@@ -11,7 +11,7 @@ import { initValidation } from './form-validation.js';
 
 const RERENDER_DELAY = 500;
 
-//initValidation();
+initValidation();
 
 getData()
   .then((miniature) => {
