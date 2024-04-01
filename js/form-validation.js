@@ -60,6 +60,8 @@ const initValidation = () => {
   pristine.addValidator(commentInput, checkCommentLength, WrongMasseges.COMMENT_LENGTH);
 };
 
+const isValidated = () => pristine.validate();
+
 const checkForm = () => {
   pristine.validate();
 };
@@ -75,8 +77,8 @@ const destroyPristine = () => {
 const setPostFormSubmit = (onSuccess) => {
   loadImageForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const isValidated = pristine.validate();
-    if(isValidated) {
+    initValidation();
+    if(isValidated()) {
       blockSubmitButton();
       sendData(new FormData(evt.target))
         .then(onSuccess)
@@ -91,4 +93,4 @@ const setPostFormSubmit = (onSuccess) => {
   });
 };
 
-export { checkForm, pristine, resetValidate, initValidation, setPostFormSubmit, destroyPristine };
+export { checkForm, pristine, resetValidate, initValidation, setPostFormSubmit, destroyPristine, isValidated };
