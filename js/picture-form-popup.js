@@ -3,7 +3,7 @@ import { onPictureBigger, onPictureSmaller, resetImageScale } from './picture-sc
 import { changeImageEffect, clearEffects, createSlider } from './picture-filter.js';
 import { checkForm, destroyPristine, resetValidate, isValidated, initValidation } from './form-validation.js';
 
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const formats = ['jpg', 'jpeg', 'png'];
 
 const loadImageFormPopup = document.querySelector('.img-upload__overlay');
 const loadImageFormPopupOpen = document.querySelector('.img-upload__input');
@@ -55,7 +55,7 @@ const setPersonalImage = () => {
   const image = loadImageFormPopupOpen.files[0];
   const imageName = image.name.toLowerCase();
 
-  const matches = FILE_TYPES.some((it) => imageName.endsWith(it));
+  const matches = formats.some((it) => imageName.endsWith(it));
 
   if (matches) {
     imagePreview.src = URL.createObjectURL(image);
