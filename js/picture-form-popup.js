@@ -1,7 +1,7 @@
 import { addModalOpen, isEscapeKey } from './utils.js';
 import { onPictureBigger, onPictureSmaller, resetImageScale } from './picture-scale.js';
 import { changeImageEffect, clearEffects, createSlider } from './picture-filter.js';
-import { checkForm, destroyPristine, resetValidate, isValidated } from './form-validation.js';
+import { checkForm, destroyPristine, resetValidate, isValidated, initValidation } from './form-validation.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
@@ -30,15 +30,18 @@ const onAddEffects = () => {
 };
 
 const onValidate = () => {
+  initValidation();
   if (isValidated()) {
     checkForm();
     destroyPristine();
   } else {
+    initValidation();
     checkForm();
   }
 };
 
 const clearForm = () => {
+  initValidation();
   effectRadioButton.querySelectorAll('.effects__radio')[0].checked = true;
 
   clearEffects();
@@ -64,7 +67,6 @@ const setPersonalImage = () => {
 };
 
 const openLoadImageForm = () => {
-  //initValidation();
   addModalOpen();
   setPersonalImage();
 
@@ -84,6 +86,13 @@ const closeLoadImageForm = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
+onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt) && document.activeElement !== hashtagInput && document.activeElement !== commentInput) {
+    evt.preventDefault();
+    closeLoadImageForm();
+  }
+};
+
 loadImageFormPopupOpen.addEventListener('change', () => {
   openLoadImageForm();
 });
@@ -91,13 +100,6 @@ loadImageFormPopupOpen.addEventListener('change', () => {
 loadImageFormPopupClose.addEventListener('click', () => {
   closeLoadImageForm();
 });
-
-onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt) && document.activeElement !== hashtagInput && document.activeElement !== commentInput) {
-    evt.preventDefault();
-    closeLoadImageForm();
-  }
-};
 
 createSlider();
 

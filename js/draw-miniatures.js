@@ -1,6 +1,8 @@
 import { drawBigPicturePopup, openPopup } from './picture-popup.js';
 import { sortByFilter, getCountMiniatures } from './filter-miniature.js';
 
+const START_COUNT_DRAW_MINIATURES = 0;
+
 const picturesList = document.querySelector('.pictures');
 const miniatureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -8,7 +10,7 @@ const similarListFragment = document.createDocumentFragment();
 
 const drawMiniatures = (miniatures) => {
   miniatures
-    .slice(0, getCountMiniatures(miniatures))
+    .slice(START_COUNT_DRAW_MINIATURES, getCountMiniatures(miniatures))
     .sort(sortByFilter)
     .forEach((miniature) => {
       const {id, url, description, likes, comments} = miniature;

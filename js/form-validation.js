@@ -1,9 +1,9 @@
-import { createErrorPopup, createSuccessPopup, blockSubmitButton, unlockSubmitButton } from './information-popups.js';
+import { blockSubmitButton, unlockSubmitButton, showSuccessPopup, showErrorPopup } from './information-popups.js';
 import { sendData } from './api.js';
 
 const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 
-const WrongMasseges = {
+const WrongMassege = {
   HASTAG_TEXT: 'Неверная запись хештегов',
   HASHTAG_COUNT: 'Хэштегов должно быть не больше пяти',
   HASHTAG_DUPLICATE: 'Повторяющийся хэштег',
@@ -54,10 +54,10 @@ const initValidation = () => {
     errorTextClass: 'img-upload__field-wrapper--error'
   });
 
-  pristine.addValidator(hashtagInput, checkHashtags, WrongMasseges.HASTAG_TEXT, 3, true);
-  pristine.addValidator(hashtagInput, checkHashtagsDuplicates, WrongMasseges.HASHTAG_DUPLICATE, 2, true);
-  pristine.addValidator(hashtagInput, checkCountHashtags, WrongMasseges.HASHTAG_COUNT, 1, true);
-  pristine.addValidator(commentInput, checkCommentLength, WrongMasseges.COMMENT_LENGTH);
+  pristine.addValidator(hashtagInput, checkHashtags, WrongMassege.HASTAG_TEXT, 3, true);
+  pristine.addValidator(hashtagInput, checkHashtagsDuplicates, WrongMassege.HASHTAG_DUPLICATE, 2, true);
+  pristine.addValidator(hashtagInput, checkCountHashtags, WrongMassege.HASHTAG_COUNT, 1, true);
+  pristine.addValidator(commentInput, checkCommentLength, WrongMassege.COMMENT_LENGTH);
 };
 
 const isValidated = () => pristine.validate();
@@ -77,16 +77,16 @@ const destroyPristine = () => {
 const setPostFormSubmit = (onSuccess) => {
   loadImageForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    //initValidation();
+    initValidation();
     if(isValidated()) {
       blockSubmitButton();
       sendData(new FormData(evt.target))
         .then(onSuccess)
         .then(() => {
-          createSuccessPopup();
+          showSuccessPopup();
         })
         .catch(() => {
-          createErrorPopup();
+          showErrorPopup();
         })
         .finally(unlockSubmitButton);
     }
