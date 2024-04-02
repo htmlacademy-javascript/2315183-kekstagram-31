@@ -5,7 +5,6 @@ const START_COUNT_DRAW_MINIATURES = 0;
 
 const picturesList = document.querySelector('.pictures');
 const miniatureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-
 const similarListFragment = document.createDocumentFragment();
 
 const drawMiniatures = (miniatures) => {

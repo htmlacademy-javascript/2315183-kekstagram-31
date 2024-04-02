@@ -15,13 +15,13 @@ const SubmitButtonText = {
 const loadImageForm = document.querySelector('.img-upload__form');
 const submitButton = loadImageForm.querySelector('.img-upload__submit');
 
+const successPopupFragment = showInformationAlert(InfoPopup.SUCCESS);
+const errorPopupFragment = showInformationAlert(InfoPopup.ERROR);
+
 let successPopup;
 let successInnerPopup;
 let errorPopup;
 let errorInnerPopup;
-
-const successPopupFragment = showInformationAlert(InfoPopup.SUCCESS);
-const errorPopupFragment = showInformationAlert(InfoPopup.ERROR);
 
 let valuePopup;
 
