@@ -5,6 +5,7 @@ const bigPicturePopup = document.querySelector('.big-picture');
 const bigPictureClose = bigPicturePopup.querySelector('.big-picture__cancel');
 
 const commentLoaderButton = bigPicturePopup.querySelector('.comments-loader');
+
 let onLoadCommentsClick;
 let onDocumentKeydown = () => {};
 

@@ -2,7 +2,7 @@ import { clearForm, onDocumentKeydown } from './picture-form-popup.js';
 import { showInformationAlert, isEscapeKey, appendPopupInBody } from './utils.js';
 import { destroyPristine } from './form-validation.js';
 
-const InfoPopups = {
+const InfoPopup = {
   ERROR: 'error',
   SUCCESS: 'success'
 };
@@ -20,18 +20,8 @@ let successInnerPopup;
 let errorPopup;
 let errorInnerPopup;
 
-const successPopupFragment = showInformationAlert(InfoPopups.SUCCESS);
-const errorPopupFragment = showInformationAlert(InfoPopups.ERROR);
-
-// const successPopup = appendPopupInBody(InfoPopups.SUCCESS, successPopupFragment);
-// const successButton = successPopup.querySelector(`.${InfoPopups.SUCCESS}__button`);
-// const successInnerPopup = successPopup.querySelector(`.${InfoPopups.SUCCESS}__inner`);
-// successPopup.classList.add('hidden');
-
-// const errorPopup = appendPopupInBody(InfoPopups.ERROR, errorPopupFragment);
-// const errorButton = errorPopup.querySelector(`.${InfoPopups.ERROR}__button`);
-// const errorInnerPopup = errorPopup.querySelector(`.${InfoPopups.ERROR}__inner`);
-// errorPopup.classList.add('hidden');
+const successPopupFragment = showInformationAlert(InfoPopup.SUCCESS);
+const errorPopupFragment = showInformationAlert(InfoPopup.ERROR);
 
 let valuePopup;
 
@@ -61,26 +51,28 @@ const onErrorButtonClick = () => {
 const onKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
+
     valuePopup.remove();
     loadImageForm.reset();
     clearForm();
+
     document.addEventListener('keydown', onDocumentKeydown);
     document.removeEventListener('keydown', onKeydown);
   }
 };
 
 const addEscapeKeydownOnPopup = (popup) => {
-  document.removeEventListener('keydown', onDocumentKeydown);
   valuePopup = popup;
+
+  document.removeEventListener('keydown', onDocumentKeydown);
   document.addEventListener('keydown', onKeydown);
 
   unlockSubmitButton();
-
   destroyPristine();
 };
 
 const showLoadInfoPopup = (parametr) => {
-  if (parametr === InfoPopups.SUCCESS) {
+  if (parametr === InfoPopup.SUCCESS) {
     addEscapeKeydownOnPopup(successPopup);
   } else {
     addEscapeKeydownOnPopup(errorPopup);
@@ -111,7 +103,7 @@ const createElementPopup = (elementFragment, infoTitle) => {
   const elementPopup = appendPopupInBody(infoTitle, elementCloneFragment);
   const elementButton = elementPopup.querySelector(`.${infoTitle}__button`);
 
-  if (infoTitle === InfoPopups.SUCCESS) {
+  if (infoTitle === InfoPopup.SUCCESS) {
     elementButton.addEventListener('click', onSuccessButtonClick);
     elementPopup.addEventListener('click', onClickSuccessPopupOutside);
   } else {
@@ -122,18 +114,18 @@ const createElementPopup = (elementFragment, infoTitle) => {
   return elementPopup;
 };
 
-const createSuccessPopup = () => {
-  successPopup = createElementPopup(successPopupFragment, InfoPopups.SUCCESS);
-  successInnerPopup = successPopup.querySelector(`.${InfoPopups.SUCCESS}__inner`);
+const showSuccessPopup = () => {
+  successPopup = createElementPopup(successPopupFragment, InfoPopup.SUCCESS);
+  successInnerPopup = successPopup.querySelector(`.${InfoPopup.SUCCESS}__inner`);
 
-  showLoadInfoPopup(InfoPopups.SUCCESS);
+  showLoadInfoPopup(InfoPopup.SUCCESS);
 };
 
-const createErrorPopup = () => {
-  errorPopup = createElementPopup(errorPopupFragment, InfoPopups.ERROR);
-  errorInnerPopup = errorPopup.querySelector(`.${InfoPopups.ERROR}__inner`);
+const showErrorPopup = () => {
+  errorPopup = createElementPopup(errorPopupFragment, InfoPopup.ERROR);
+  errorInnerPopup = errorPopup.querySelector(`.${InfoPopup.ERROR}__inner`);
 
-  showLoadInfoPopup(InfoPopups.ERROR);
+  showLoadInfoPopup(InfoPopup.ERROR);
 };
 
-export { createErrorPopup, createSuccessPopup, blockSubmitButton, unlockSubmitButton };
+export { showErrorPopup, showSuccessPopup, blockSubmitButton, unlockSubmitButton };

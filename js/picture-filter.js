@@ -1,5 +1,13 @@
 import { effectOption } from './effect-option-list.js';
 
+const DefaultSliderSetting = {
+  MIN: 0,
+  MAX: 100,
+  START: 100
+};
+
+const DEFAULT_EFFECT_VALUE = 0;
+
 const imagePreview = document.querySelector('.img-upload__preview img');
 
 const sliderElement = document.querySelector('.effect-level__slider');
@@ -19,10 +27,10 @@ const applyFilter = () => {
 const createSlider = () => {
   noUiSlider.create(sliderElement, {
     range: {
-      min: 0,
-      max: 100,
+      min: DefaultSliderSetting.MIN,
+      max: DefaultSliderSetting.MAX,
     },
-    start: 100,
+    start: DefaultSliderSetting.START,
     connect: 'lower',
     format: {
       to: function (value) {
@@ -74,7 +82,7 @@ const changeImageEffect = (button) => {
 };
 
 const clearEffects = () => {
-  effectLevelValue.value = 0;
+  effectLevelValue.value = DEFAULT_EFFECT_VALUE;
   imagePreview.style.filter = effectOption.none.FILTER_NAME;
 };
 
